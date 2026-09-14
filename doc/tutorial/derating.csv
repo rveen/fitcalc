@@ -1,0 +1,13 @@
+# Derating rules of the tutorial: limits of the kind derating standards give
+# (such as ECSS-Q-ST-30-11 or a car maker's), not taken from one. Check them
+# against the standard of your project. Limits are percentages of the rating.
+class, tags,  rating, limit, note
+*,     ,      *,      80,    everything else
+R,     ,      pmax,   60,    resistor power
+R,     thick, pmax,   50,    thick film resistor power
+C,     cer,   vmax,   60,    ceramic capacitor voltage
+C,     alu,   vmax,   80,    aluminium electrolytic voltage
+D,     ,      imax,   75,    diode forward current
+D,     led,   imax,   60,    LED current
+Q,     ,      pmax,   50,    transistor power
+Q,     ,      vgsmax, 75,    gate voltage

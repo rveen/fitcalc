@@ -1,0 +1,5 @@
+* Generic op-amp macro model: inp inn vcc vee out
+.subckt opamp inp inn vcc vee out
+E1 int 0 inp inn 100k
+R1 int out 100
+.ends opamp

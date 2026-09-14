@@ -1,0 +1,11 @@
+# Thermal network of the tutorial board, in K/W: each warm component to the
+# board, and the board to the air in the housing (amb, the phase ambient).
+from,  to,    rth
+Q1,    board, 60
+D1,    board, 80
+R7,    board, 150
+DZ1,   board, 300
+U1,    board, 100
+D2,    board, 400
+R1,    board, 300
+board, amb,   20

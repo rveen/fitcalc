@@ -1,0 +1,15 @@
+.title KiCad schematic
+.include "models/opamp.lib"
+.save all
+.probe alli
+.op
+XU1 /in /fb VCC 0 /out opamp
+R1 /in /fb 10k
+R2 /fb /out 47k
+C1 /out 0 100n
+VBT1 VCC 0 DC 12
+V1 /in 0 dc 1 ac 1
+D1 /out Net-_D1-A_ 1N4148
+R3 Net-_D1-A_ 0 1k
+.model 1N4148 D(IS=2.52n RS=0.568 N=1.752)
+.end

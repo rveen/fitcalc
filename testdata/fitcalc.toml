@@ -1,0 +1,16 @@
+# fitcalc project of the probe circuit. Paths are relative to this file;
+# "fitcalc testdata" writes the report testdata/probe.md.
+
+netlist = "probe.net"
+parts   = ["probe.bom.csv", "parts.db.csv"] # the BOM first
+mission = "mission.csv"
+
+# Also possible, as the long flags:
+# derating = "derating.csv"
+# thermal  = "thermal.csv"
+# sweep    = "V1 10.8 13.2 0.2"   # or tran = "10u 5m 1m"
+# hot      = 70
+# ngspice  = "/usr/bin/ngspice"
+# keep     = "work"
+# output   = "probe.md"           # "-" for stdout
+# format   = "markdown"           # or "csv"

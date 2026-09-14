@@ -1,0 +1,30 @@
+OP probe circuit: one element of each kind handled by fitcalc
+* Verified with ngspice 47
+V1 vcc 0 12
+R1 vcc out 10k
+R2 out 0 1k
+C1 out 0 100n
+L1 vcc nl 10u
+R3 nl dk 1k
+D1 dk 0 DMOD
+D2 0 vcc DMOD
+RB vcc b 100k
+Q1 c b 0 QMOD
+RC vcc c 2k
+M1 d g 0 0 NMOD
+RG vcc g 1meg
+RG2 g 0 300k
+RD vcc d 1k
+J1 dj 0 0 JMOD
+RJ vcc dj 5k
+X1 vcc sub1 DIV
+.subckt DIV a b
+RA a b 2k
+RB2 b 0 2k
+.ends
+.model DMOD D(IS=1e-14)
+.model QMOD NPN(BF=100)
+.model NMOD NMOS(VTO=1 KP=1e-3)
+.model JMOD NJF(VTO=-2 BETA=1e-4)
+.op
+.end

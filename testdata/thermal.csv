@@ -1,0 +1,12 @@
+# Thermal network of the probe circuit, in K/W: each component to the board,
+# the board to the ambient (the air of the enclosure)
+from,  to,    rth
+Q1,    board, 250
+M1,    board, 250
+J1,    board, 250
+D1,    board, 300
+X1,    board, 100
+R3,    board, 200
+RC,    board, 200
+R1,    board, 400
+board, amb,   25

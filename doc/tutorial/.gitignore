@@ -1,0 +1,4 @@
+# The reports and ngspice files the tutorial's commands write
+sensor.md
+sensor.csv
+work/

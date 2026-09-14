@@ -1,0 +1,21 @@
+# BOM of the probe circuit (testdata/probe.net); types in parts.db.csv.
+# J9 is a connector that is not in the netlist.
+name, type,     value
+R1,   R0603,    10k
+R2,   R0603,    1k
+R3,   R1206,    1k
+RB,   R0603,    100k
+RC,   R0603,    2k
+RG,   R0603,    1M
+RG2,  R0603,    300k
+RD,   R0603,    1k
+RJ,   R0603,    5k
+C1,   C0603X7R, 100n
+L1,   LPWR,     10u
+D1,   D1N4148,
+D2,   D1N4148,
+Q1,   BC847,
+M1,   BSS138,
+J1,   J201,
+X1,   DIVIC,
+J9,   TB2,

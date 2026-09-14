@@ -1,0 +1,31 @@
+.title KiCad schematic
+.include "TESTDATA/models/opamp.lib"
+* fitcalc: .save all
+* fitcalc: .probe alli
+* fitcalc: .op
+* fitcalc: XU1 /in /fb VCC 0 /out opamp
+R1 /in /fb 10k
+R2 /fb /out 47k
+C1 /out 0 100n
+VBT1 VCC 0 DC 12
+V1 /in 0 dc 1 ac 1
+D1 /out Net-_D1-A_ 1N4148
+R3 Net-_D1-A_ 0 1k
+.model 1N4148 D(IS=2.52n RS=0.568 N=1.752)
+* fitcalc: subcircuit instances, with their pin currents measured
+XU1 fitcalc_xu1_1 fitcalc_xu1_2 fitcalc_xu1_3 fitcalc_xu1_4 fitcalc_xu1_5 opamp
+vfitcalc_xu1_1 /in fitcalc_xu1_1 0
+vfitcalc_xu1_2 /fb fitcalc_xu1_2 0
+vfitcalc_xu1_3 VCC fitcalc_xu1_3 0
+vfitcalc_xu1_4 0 fitcalc_xu1_4 0
+vfitcalc_xu1_5 /out fitcalc_xu1_5 0
+* fitcalc: operating point analysis
+.control
+set filetype=binary
+save all
+save @r1[i] @r1[p] @r2[i] @r2[p] @d1[id] @r3[i] @r3[p]
+op
+write op.raw
+quit
+.endc
+.end

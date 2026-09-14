@@ -1,0 +1,14 @@
+# Part types for the probe circuit (testdata/probe.net). The values are
+# typical datasheet ratings, for testing. mpns and footprints map the rows of
+# a BOM without a type, such as testdata/probe.kicad.csv, to a type.
+name,     class, tags,    package, npins, tmax, vmax, pmax, imax, dcr,  mpns,         footprints,                       description
+R0603,    R,     thick,   0603,    ,      155,  75,   0.1,  ,     ,     ,             Resistor_SMD:R_0603_1608Metric*,  thick film resistor 0603
+R1206,    R,     thick,   1206,    ,      155,  200,  0.25, ,     ,     ,             Resistor_SMD:R_1206_3216Metric*,  thick film resistor 1206
+C0603X7R, C,     cer x7r, 0603,    ,      125,  50,   ,     ,     ,     ,             Capacitor_SMD:C_0603_1608Metric*, ceramic capacitor X7R 0603
+LPWR,     L,     power,   ,        ,      125,  ,     ,     1.5,  0.05, SRR1260-100M, ,                                 power inductor
+D1N4148,  D,     ,        SOD123,  ,      150,  100,  0.5,  0.2,  ,     1N4148W,      ,                                 small signal diode
+BC847,    Q,     ,        SOT23,   ,      150,  45,   0.25, 0.1,  ,     ,             ,                                 NPN transistor
+BSS138,   Q,     ,        SOT23,   ,      150,  50,   0.36, 0.2,  ,     ,             ,                                 N-channel MOSFET
+J201,     Q,     ,        SOT23,   ,      150,  40,   0.35, 0.05, ,     ,             ,                                 N-channel JFET
+DIVIC,    U,     analog,  SOIC8,   ,      125,  36,   ,     ,     ,     ,             ,                                 divider IC (the subcircuit DIV)
+TB2,      J,     tht,     ,        2,     105,  300,  ,     10,   ,     1715721,      ,                                 2-way terminal block

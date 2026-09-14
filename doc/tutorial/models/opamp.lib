@@ -1,0 +1,11 @@
+* Op-amp macro model for the tutorial: inp inn vcc vee out
+* A gain of 100k, a quiescent supply current of 0.8 mA, and the output
+* current drawn from vcc, so that the power at the pins is what a real
+* op-amp dissipates. All currents return through vee.
+.subckt opamp inp inn vcc vee out
+IQ  vcc vee 0.8m
+E1  int vee inp inn 100k
+RO  int mid 50
+VO  mid out 0
+F1  vcc vee VO 1
+.ends opamp

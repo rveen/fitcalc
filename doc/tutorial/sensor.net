@@ -1,0 +1,38 @@
+Sensor interface: 12 V supply, 5 V rail, sensor amplifier and LED
+* The example circuit of doc/tutorial.md: a small automotive module.
+
+* Battery and input protection: reverse-polarity diode and bulk capacitor
+V1 bat 0 13.5
+D1 bat vin DRECT
+C1 vin 0 47u
+
+* 5 V rail: zener reference and emitter follower
+R1 vin z 2.2k
+DZ1 0 z DZ56
+Q1 vin z v5 QPASS
+C2 v5 0 10u
+* The microcontroller on the 5 V rail, as a current
+IMCU v5 0 20m
+
+* Sensor amplifier: a 0.5 V sensor signal, amplified 4.9 times
+VS sens 0 0.5
+R4 sens inp 10k
+C3 inp 0 10n
+XU1 inp fb v5 0 out opamp
+R5 fb 0 10k
+R6 out fb 39k
+
+* Status LED, switched by a MOSFET from a logic output: on at the operating
+* point (DC 5), blinking at 1 kHz with a duty cycle of 50 % in a transient
+VG g 0 DC 5 PULSE(0 5 0 1u 1u 0.5m 1m)
+R7 vin led 1k
+D2 led k DLED
+M1 k g 0 0 NMOS1
+
+.include "models/opamp.lib"
+.model DRECT D(IS=1n N=1.8 RS=0.05)
+.model DZ56  D(IS=1p BV=5.6 IBV=5m)
+.model DLED  D(IS=1e-20 N=2 RS=5)
+.model QPASS NPN(IS=1e-14 BF=150)
+.model NMOS1 NMOS(VTO=1.5 KP=0.1)
+.end

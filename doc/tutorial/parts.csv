@@ -1,0 +1,17 @@
+# Part types of the tutorial circuit, with the ratings of typical datasheets.
+# Every BOM row names one of these types in its type column. tolerance (in %)
+# is what the Monte Carlo analysis varies; rth is the junction-to-ambient
+# thermal resistance where the package gives no FIDES default.
+name,       class, tags,      package, npins, tolerance, tmax, vmax, pmax, imax, vgsmax, vcbmax, vebmax, rth, description
+R0603,      R,     thick,     0603,    ,      1,         155,  75,   0.1,  ,     ,       ,       ,       ,    thick film resistor 0603
+R1206,      R,     thick,     1206,    ,      1,         155,  200,  0.25, ,     ,       ,       ,       ,    thick film resistor 1206
+C_ALU47U35, C,     alu,       ,        ,      20,        105,  35,   ,     ,     ,       ,       ,       ,    aluminium electrolytic 47 µF 35 V
+C_X7R0805,  C,     cer x7r,   0805,    ,      10,        125,  16,   ,     ,     ,       ,       ,       ,    ceramic capacitor 10 µF 16 V X7R 0805
+C_C0G0603,  C,     cer c0g,   0603,    ,      5,         125,  50,   ,     ,     ,       ,       ,       ,    ceramic capacitor 10 nF 50 V C0G 0603
+S1M,        D,     rectifier, SMA,     ,      ,          150,  1000, ,     1,    ,       ,       ,       ,    rectifier diode 1 A 1000 V
+BZX84C5V6,  D,     zener,     SOT23,   ,      ,          150,  ,     0.25, ,     ,       ,       ,       ,    zener diode 5.6 V
+LED0603,    D,     led,       CHIP,    ,      ,          100,  5,    ,     0.02, ,       ,       ,       500, red chip LED 0603
+BCP56,      Q,     ,          SOT223,  ,      ,          150,  80,   1.5,  1,    ,       100,    5,      ,    NPN medium power transistor
+2N7002,     Q,     mos,       SOT23,   ,      ,          150,  60,   0.3,  0.3,  20,     ,       ,       ,    N-channel MOSFET
+OPA_GP,     U,     analog,    SOIC8,   ,      ,          125,  32,   ,     ,     ,       ,       ,       ,    general purpose op-amp
+TB2,        J,     tht,       ,        2,     ,          105,  300,  ,     10,   ,       ,       ,       ,    2-way terminal block

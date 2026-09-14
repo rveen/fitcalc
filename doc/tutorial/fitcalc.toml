@@ -1,0 +1,8 @@
+# fitcalc project of the tutorial circuit (doc/tutorial.md): run it with
+#   fitcalc doc/tutorial
+# Paths are relative to this file.
+
+netlist  = "sensor.net"
+parts    = ["bom.csv", "parts.csv"] # the BOM first
+mission  = "mission.csv"
+derating = "derating.csv"

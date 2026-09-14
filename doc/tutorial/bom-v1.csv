@@ -1,0 +1,18 @@
+# First draft of the BOM of the tutorial circuit (sensor.net), with R7 in
+# 0603: see step 4 of doc/tutorial.md. bom.csv is the corrected BOM.
+name, type,       value, block
+J1,   TB2,        ,      supply
+D1,   S1M,        ,      supply
+C1,   C_ALU47U35, 47u,   supply
+R1,   R0603,      2.2k,  supply
+DZ1,  BZX84C5V6,  ,      supply
+Q1,   BCP56,      ,      supply
+C2,   C_X7R0805,  10u,   supply
+R4,   R0603,      10k,   sensor
+C3,   C_C0G0603,  10n,   sensor
+U1,   OPA_GP,     ,      sensor
+R5,   R0603,      10k,   sensor
+R6,   R0603,      39k,   sensor
+R7,   R0603,      1k,    led
+D2,   LED0603,    ,      led
+M1,   2N7002,     ,      led
