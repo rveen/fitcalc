@@ -7,7 +7,7 @@ require (
 	github.com/rveen/electronics v0.0.0-20260911070044-5d0fa94af674
 	github.com/rveen/fides v0.1.1
 	github.com/rveen/golib v0.0.0-20260911084113-9425fedd2ffe
-	github.com/rveen/logb v0.0.0-20260911081314-b7056bc39d6c
+	github.com/trukeio/logb v0.0.0-20261120085545-2c84e0a543e1
 )
 
 require (

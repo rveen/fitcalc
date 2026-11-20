@@ -21,7 +21,7 @@ following decisions were taken (details in the sections referenced):
 | D4 | The report covers the union of netlist and BOM. BOM-only parts (connectors, PCB, …) get a FIT from metadata and are flagged "no SPICE stress". Simulation-only elements (sources, …) are listed but excluded from FIT. | 9, 12 |
 | D5 | The parts/metadata input keeps the existing fides CSV format (`name` key, `type` inheritance, several files). | 10 |
 | D6 | M1 adds a derating/overstress check (V/Vmax, P/Pmax, I/Imax) that does not depend on FIDES. | 11 |
-| D7 | ngspice results are read through `rveen/logb/spice`, which is extended to support ngspice raw files. | 7 |
+| D7 | ngspice results are read through `trukeio/logb/spice`, which is extended to support ngspice raw files. | 7 |
 | D8 | The minimal netlist parser is written in fitcalc. `golib/spice` is too rudimentary and cannot be imported. | 4, 6 |
 | D9 | Capacitors at 0 V DC: follow the FIDES formula (the thermo-electrical term becomes zero) and report its result as is. | 8 |
 | D10 | *Decided during M1.10; replaces D1.* Milestone 1 is a first deliverable under the MIT license. The `fides` package moves from the private `trukeio/reliability` module into fitcalc (`fides/`, with `cmd/fides`), which then depends only on published open-source modules. `trukeio/reliability` stays unchanged. FIDES 2022 only. | 4, 13 |
@@ -74,7 +74,7 @@ them, supplies component metadata, derives stresses and produces auditable repor
 | `rveen/fides` | Older version of the above, plus `cmd/fides` (BOM + db + mission CSV → FIT table). Published, in the module cache. | `cmd/fides` is the model for the CLI and the CSV formats. Since v0.1.0 (D11) it holds fitcalc's FIDES library and is the reliability engine. |
 | `rveen/golib/csv` | `Read` (CSV → `[]map[string]string`, `#` comments, quotes) and `ReadTyped` (first file = instances keyed by `name`, other files = types; `type` inheritance, tag merging). | **Parts/metadata loading** (D5). Two small bugs (section 8). |
 | `rveen/electronics` | `Value()` (SI-suffix parser), `Rth(package)` (default thermal resistance per package). | `Rth` is used through fides. `Value` has SPICE-incompatible semantics (section 8). |
-| `rveen/logb/spice` | Well-structured, tested reader for SPICE **binary raw** files (`ReadRaw`, `Raw`, `Layout`, `Var`). Written for LTspice: it assumes float32 non-axis values, rejects ASCII raw files, and has no per-value accessor. Module deps: `google/uuid`, `klauspost/compress`. | **ngspice result reader** (D7), after the extension in section 7. |
+| `trukeio/logb/spice` | Well-structured, tested reader for SPICE **binary raw** files (`ReadRaw`, `Raw`, `Layout`, `Var`). Written for LTspice: it assumes float32 non-axis values, rejects ASCII raw files, and has no per-value accessor. Module deps: `google/uuid`, `klauspost/compress`. | **ngspice result reader** (D7), after the extension in section 7. |
 | `golib/spice` (`/files/go/src/golib/spice`, module `golib`) | Netlist sketch (`ReadNet2`: line-based, no continuation lines, no subckt awareness), `Simulate()` = bare `exec ngspice -b -r`, Monte Carlo/FIT fault-injection helpers (`Context.Pick`, `Rfit`), older raw reader. | Not imported (module path `golib` is not importable and the parser is too minimal). Reference material only, and possibly useful for M10 (Monte Carlo). |
 | `rveen/ltspice` | Older LTspice raw reader and `lta` statistics tool. | Superseded by `logb/spice`. |
 | `golib/k/rel` (module `golib`) | IEC 61709 and FMD-91 (failure-mode distribution) material, and `reloop` (LTspice `.step` fault-injection deck generator). Not reviewed in detail. | Not in M1. Candidate for an IEC 61709 backend (section 20) and for M10. |
@@ -241,7 +241,7 @@ Verified with ngspice 47:
 - `-k DIR` keeps deck, log and raw file for audit.
 - The ngspice version (`ngspice -v`) is recorded in the report.
 
-### Result reading: extension of `rveen/logb/spice` (D7)
+### Result reading: extension of `trukeio/logb/spice` (D7)
 
 The LTspice-only assumptions have to be lifted:
 
@@ -283,7 +283,7 @@ are consumed. These targeted, tested changes are made upstream:
 | `trukeio/reliability` (`pof`, `thermal`, `stat`, `qual`, `cmd/fides`) | Stale `golib/electronics/...` and `golib/sim/thermal` import paths now point at the module's own packages. `cmd/fides` uses `reliability/fides` instead of `rveen/fides`. Fixed the `go vet` errors. | Needed for `go build ./...` in the new module. |
 | `rveen/electronics` | Add `SpiceValue(s)` with SPICE semantics: case-insensitive, `m` = milli, `meg` = mega, `mil`, trailing units ignored (`10uF`, `1kOhm`). Keep `Value()` for BOM strings, where `1M` conventionally means mega. That is why `Value` maps `m` to 1e6 today, and changing it would break existing db files. Fix the `4k7`-style fraction handling (`n2/10` is wrong for more than one digit). | SPICE values would otherwise be parsed wrongly (`1m` → 1e6). |
 | `rveen/golib/csv` | `ReadTyped`: return file read errors instead of ignoring them. Fix tag/type duplication in `addTypeInfo` (`o[k] += o[k] + " " + v`). | A missing db file must not pass silently. Tags are currently duplicated. |
-| `rveen/logb/spice` | ngspice support (section 7). | D7. |
+| `trukeio/logb/spice` | ngspice support (section 7). | D7. |
 
 Each change gets a unit test in its own repository. FIT regression values for the existing
 `cmd/fides` sample (bom/db/mission CSV) are recorded before the changes, so any unintended change
@@ -443,7 +443,7 @@ failure.
 
 - `go.mod`: `module github.com/rveen/fitcalc`, go 1.25.
 - License: MIT (`LICENSE`). The dependencies are open source: `rveen/electronics`, `rveen/golib`
-  and `rveen/ogdl` (BSD-2), `rveen/logb` and `rveen/fides` (MIT), `google/uuid` and
+  and `rveen/ogdl` (BSD-2), `trukeio/logb` and `rveen/fides` (MIT), `google/uuid` and
   `klauspost/compress` (BSD).
 - The FIDES implementation is `rveen/fides` (D11). Its v0.1.0 is the `fides` package this module
   had in M1.10 (D10), which was copied from `trukeio/reliability` at a60488e with the M1.0 and
@@ -451,9 +451,9 @@ failure.
   setting or git URL rewrite is needed.
 - Committed `go.mod` files require only published versions, with no `replace` directives. Local
   development across repositories uses a `go.work` file, which is gitignored. It uses `.`,
-  `../../rveen/golib` and `../../rveen/logb`, and replaces `github.com/rveen/fides` with
+  `../../rveen/golib` and `../../trukeio/logb`, and replaces `github.com/rveen/fides` with
   `../../rveen/fides` (a `use` of fides would still look up the required version remotely).
-- Publishing order for library changes: push `rveen/electronics`, `rveen/golib`, `rveen/logb`
+- Publishing order for library changes: push `rveen/electronics`, `rveen/golib`, `trukeio/logb`
   and `rveen/fides` first (tagging `rveen/fides`), then bump their versions in `go.mod`, then
   push fitcalc. Before pushing, run the tests
   with `GOWORK=off`, so they use only published versions.

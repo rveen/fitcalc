@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 
-	rawfile "github.com/rveen/logb/spice"
+	rawfile "github.com/trukeio/logb/spice"
 )
 
 // Values are the results of an operating point analysis, by lower-case vector
